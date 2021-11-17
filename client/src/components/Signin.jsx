@@ -8,13 +8,18 @@ function Signin({setCurrentUser}) {
             "username": e.target[0].value, 
             "password": e.target[1].value
         }
-        console.log('Signin Obj', obj)
 
         fetch('/login', {
             method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(obj)
         })
-        .then(resp => resp.json())
-        .then(data => setCurrentUser(data))
+        .then(resp => {
+            if(resp.ok) {
+                console.log('log in resp', resp)
+                resp.json().then(user => setCurrentUser(user))
+            } else {
+                console.log('user log in', resp)
+            }
+        })
     }
     
     return(

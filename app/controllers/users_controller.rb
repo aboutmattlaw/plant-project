@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   
-# /users/:id used for auth
+# /me used for auth
 
 
     def show
@@ -20,7 +20,7 @@ class UsersController < ApplicationController
         end
       end
 
-# /users used to create a new user
+# /signup used to create a new user
 
 
     def create

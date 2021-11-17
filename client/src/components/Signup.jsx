@@ -2,7 +2,7 @@
 import {Button, Form, Container} from 'react-bootstrap'
 import { Link } from "react-router-dom"
 
-function Signup({setLogin}) {
+function Signup({setCurrentUser}) {
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -16,8 +16,15 @@ function Signup({setLogin}) {
         fetch('/signup', {
             method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(obj)
         })
-        .then(resp => resp.json())
-        .then(data => console.log('New User', data))
+        .then(resp => {
+            if(resp.ok) {
+                console.log('user signup resp ok', resp)
+                resp.json().then(data => setCurrentUser(data))
+            } else {
+                console.log('user signup resp not ok', resp)
+            }
+        })
+        
     }
     
     return(
