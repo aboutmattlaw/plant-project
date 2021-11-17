@@ -2,10 +2,10 @@ class UsersController < ApplicationController
 
 # /users shows all users and their gardens and plants
   
-  def index
-    user = User.all
-      render json: user, status: :ok
-  end
+  # def index
+  #   user = User.all
+  #     render json: user, status: :ok
+  # end
 
   
 # /users/:id used for auth
