@@ -4,12 +4,13 @@ import Garden from "./Garden"
 
 function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentUserGardens}) {
     
-    function handleClick(e) {
+    function handleDelete(e) {
         fetch('/logout', {method: 'DELETE'})
-        .then(resp => setCurrentUser(null))
-
+        .then(resp => {
+            setCurrentUserGardens([])
+            setCurrentUser(null)
+        })
     }
-
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -17,51 +18,35 @@ function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentU
             "garden_name": event.target[0].value,
             "user_id": currentUser.id 
         }
-        console.log('Body Object', obj)
+       
         fetch('/gardens', {
             method: 'POST', headers: {"Content-Type": "application/json"}, body: JSON.stringify(obj)
         })
         .then(resp => resp.json())
-        .then(data => console.log('New Garden', data))
+        .then(data => {
+            setCurrentUserGardens(value => value = [...currentUserGardens, data])
+        })
     }
     
-    
-
-
-
-
     
     return(  
         <>
    
-            <div>
-                Garden Landing
-            </div>
+            <div>Garden Landing</div>
 
-            <button onClick={handleClick}>Logout "User"</button>
+            <button onClick={handleDelete}>Logout "{currentUser.username}"</button>
         
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="formBasicGardenName">
+                    <Form.Label>Garden Name</Form.Label>
+                    <Form.Control placeholder="Enter Garden Name" />
+                </Form.Group>
+                    <Button variant="primary" type="submit">Submit</Button>
+            </Form>
 
-        <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formBasicGardenName">
-                <Form.Label>Garden Name</Form.Label>
-                <Form.Control placeholder="Enter Garden Name" />
-            </Form.Group>
+            <Garden currentUser={currentUser} setCurrentUserGardens={setCurrentUserGardens} currentUserGardens={currentUserGardens}></Garden>
 
-           
-            <Button variant="primary" type="submit">
-                Submit
-            </Button>
-        
-            
-        </Form>
-
-
-        
-
-   
-   <Garden currentUser={currentUser} setCurrentUserGardens={setCurrentUserGardens} currentUserGardens={currentUserGardens}></Garden>
-
-      </>
+        </>
     )
 }
 

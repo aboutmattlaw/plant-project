@@ -9,20 +9,25 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
-  const [currentUserGardens, setCurrentUserGardens] = useState(null)
+  const [currentUserGardens, setCurrentUserGardens] = useState([])
 
 
   useEffect(() => {
     fetch('/me')
     .then(resp => {
       if(resp.ok) {
-        resp.json().then(user => {setCurrentUser(user) 
-          setCurrentUserGardens(user.gardens)})
+        resp.json().then(user => setCurrentUser(user))
       } else {
         console.log('logged in', "no")
       }
     })
   }, [])
+
+  useEffect(() => {
+    if(currentUser) {
+      setCurrentUserGardens(currentUser.gardens)
+    }
+  }, [currentUser])  
 
   return (
     <Router>
