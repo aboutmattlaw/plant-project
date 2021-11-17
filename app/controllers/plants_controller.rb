@@ -17,6 +17,22 @@ class PlantsController < ApplicationController
         end
       end
   
+
+      def destroy
+           pullplant = Plant.find_by(id: params[:id])
+        if pullplant
+          pullplant.destroy
+          render json: {}, status: 202
+        else
+          render json: { error: 'plant already pulled' }, status: 404
+        end
+      end
+    
+    
+
+
+
+
       private
     
       def plant_params
