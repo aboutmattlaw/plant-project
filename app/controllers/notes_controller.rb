@@ -1,6 +1,8 @@
 class NotesController < ApplicationController
 
 
+  # /notes allows for cration of a note
+
     def create
         note = Note.create(note_params)
         if note.valid?

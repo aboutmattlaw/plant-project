@@ -1,13 +1,17 @@
 class PlantsController < ApplicationController
 
 
+
+  # /plants shows all plants with notes and comments
+
     def index
         plants = Plant.all
           render json: plants, status: :ok
       end
 
 
-
+# /plants allows for cration of a plant
+  
       def create
         plant = Plant.create(plant_params)
         if plant.valid?
@@ -17,6 +21,8 @@ class PlantsController < ApplicationController
         end
       end
   
+# /plants/:id used to add the various XXX_on dates. 
+
 
       def update
            updateplant = Plant.find_by(id: params[:id])
@@ -28,15 +34,15 @@ class PlantsController < ApplicationController
         end
       end
 
-
+# /plants:id used to remove a plant from a garden
 
       def destroy
         pullplant = Plant.find_by(id: params[:id])
      if pullplant
        pullplant.destroy
-       render json: {}, status: 202
+       render json: {}, status: 404
      else
-       render json: { error: 'plant already pulled' }, status: 404
+       render json: { error: 'plant already pulled' }, status: unprocessable_entity
      end
    end
  
