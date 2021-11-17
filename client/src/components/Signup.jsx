@@ -1,11 +1,8 @@
 
 import {Button, Form, Container} from 'react-bootstrap'
+import { Link } from "react-router-dom"
 
 function Signup({setLogin}) {
-    function handleClick(event) {
-        event.preventDefault()
-        setLogin(true)
-    }
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -55,9 +52,11 @@ function Signup({setLogin}) {
             <Button variant="primary" type="submit">
                 Submit
             </Button>
-            <Button variant="secondary" type="submit" onClick={handleClick}>
+            {/* <Button variant="secondary" type="submit">
                 Login 
-            </Button>
+            </Button> */}
+            
+            <Link to="/">Login</Link>
         </Form>
         </Container>
     )

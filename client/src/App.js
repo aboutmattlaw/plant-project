@@ -1,19 +1,30 @@
-import logo from './logo.svg';
-import Signin from './components/Signin';
-import Signup from './components/Signup';
-import {useState} from 'react';
+// import Signin from './components/Signin';
+// import Signup from './components/Signup';
+// import Garden from './components/Garden';
+import AuthenticatedApp from "./components/AuthenticatedApp"
+import UnauthenticatedApp from "./components/UnauthenticatedApp";
+import {useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Card, Button} from 'react-bootstrap';
-
-// import Button from 'react-bootstrap/Button';
+import { BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
-  const [login, setLogin] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
+
+  useEffect(() => {
+    fetch('/me')
+    .then(resp => {
+      if(resp.ok) {
+        resp.json().then(data => setCurrentUser(data))
+      } else {
+        console.log('logged in', "no")
+      }
+    })
+  }, [])
 
   return (
-    <div>
-      {login ? <Signin setLogin={setLogin}/> : <Signup setLogin={setLogin}/>}
-    </div>
+    <Router>
+      {currentUser ? <AuthenticatedApp setCurrentUser={setCurrentUser}/> : <UnauthenticatedApp setCurrentUser={setCurrentUser} />}
+    </Router>
   );
 }
 
