@@ -1,12 +1,15 @@
-import Garden from "./Garden"
+import BigGarden from "./BigGarden"
 
-function AuthenticatedApp({setCurrentUser}) {
+function AuthenticatedApp({setCurrentUser, currentUser, setCurrentUserGardens, currentUserGardens}) {
     return (
         <div>
             Authenticated App 
-            <Garden setCurrentUser={setCurrentUser}/>
+            <BigGarden setCurrentUser={setCurrentUser} currentUser={currentUser} setCurrentUserGardens={setCurrentUserGardens} currentUserGardens={currentUserGardens} />
         </div>
     )
 }
 
 export default AuthenticatedApp
+
+
+

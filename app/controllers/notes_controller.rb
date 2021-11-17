@@ -1,7 +1,7 @@
 class NotesController < ApplicationController
 
 
-  # /notes allows for cration of a note
+  # /notes allows for creation of a note
 
     def create
         note = Note.create(note_params)
