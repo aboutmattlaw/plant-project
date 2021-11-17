@@ -1,9 +1,14 @@
 class UsersController < ApplicationController
 
+# /users shows all users and their gardens and plants
+  
   def index
     user = User.all
       render json: user, status: :ok
   end
+
+  
+# /users/:id used for auth
 
 
     def show
@@ -14,6 +19,8 @@ class UsersController < ApplicationController
           render json: { error: 'No active session' }, status: :unauthorized
         end
       end
+
+# /users used to create a new user
 
 
     def create
