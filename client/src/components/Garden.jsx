@@ -2,7 +2,7 @@ import {Card, Row, Col,Container} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
 
-function Garden(){
+function Garden({currentUserGardens}){
 
     // function handleSubmit(event) {
     //     event.preventDefault()
@@ -18,26 +18,21 @@ function Garden(){
     //     .then(data => console.log('New Garden', data))
     // }
     
+    const gardens = currentUserGardens.map(garden => {
+        return <Card>
+                    <Card.Header>{garden.garden_name}</Card.Header>
+                    <Card.Body>
+                        <Card.Title>{garden.garden_name}</Card.Title>
+                        <Card.Text>
+                            <Link to="/">link</Link>
+                        </Card.Text>
+                    </Card.Body>
+                </Card>
+    })
+
     return(
         <Container className="w-75 p-3 mt-5">
-     
-     <Card>
-  <Card.Header>Featured</Card.Header>
-  <Card.Body>
-  
-    <Card.Title>Backyard</Card.Title>
-    <Card.Text>
-     <Link to="/">link</Link>
-    </Card.Text>
-    </Card.Body>
-</Card>
-
-
-
-     
-
-     
-     
+            {gardens}
         </Container>
     )
 }
