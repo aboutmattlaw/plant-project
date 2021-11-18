@@ -136,7 +136,7 @@ function Plant({
       return (
             <Col key={plant.id}>
                 <Card>
-                    <Card.Img variant="top" src="" /> 
+                    <Image src={plant.plant_image_url}></Image>
                    
                     <Card.Body>
                         <Card.Title>{plant.plant_name}</Card.Title>
@@ -196,7 +196,7 @@ function Plant({
             return(
                 <Col>
                     <Card>
-                        <Card.Img variant="top" src="https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/A600009156_1?$AFHS-PDP-Zoomed$" />
+                    <Image src={plant.plant_image_url}></Image>
                         <Card.Body>
                             <Card.Title>{plant.plant_name}</Card.Title>
                             {comments}
