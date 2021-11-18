@@ -51,9 +51,17 @@ class PlantsController < ApplicationController
 
       private
     
+
+      
       def plant_params
-        params.permit(:comment_title, :comment_description, :plant_id, :user_id)
+        params.permit(:plant_name, :garden_id)
       end
+
+      def oldplant_params
+        params.permit(:comment_title, :comment_description, :plant_id, :user_id, :garden_id)
+      end
+
+
 
       def updateplant_params
         params.permit(:planted_on, :sprouted_on, :flowered_on)
