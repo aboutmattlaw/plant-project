@@ -13,9 +13,11 @@ function Navigation({currentUser, setCurrentUserGardens, setCurrentUser}) {
     return (
         <Navbar bg="primary" variant="dark">
             <Container>
-            <Navbar.Brand href="#home">{currentUser.username}'s Gardens</Navbar.Brand>
+            <Navbar.Brand href="/home">{currentUser.username}'s Gardens</Navbar.Brand>
                 <Nav className="me-auto">
-                    <Nav.Link onClick={handleDelete} href="#home">User Logout</Nav.Link>
+                    <Nav.Link onClick={handleDelete} href="/">User Logout</Nav.Link>
+                    <Nav.Link href="/home">Gardens</Nav.Link>
+                    <Nav.Link href="#plants">Plants</Nav.Link>
                 </Nav>
             </Container>
         </Navbar>

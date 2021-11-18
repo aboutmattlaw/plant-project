@@ -2,6 +2,7 @@ import {Row, Button, Container, Form } from "react-bootstrap"
 import CreateGarden from "./CreateGarden"
 import Garden from "./Garden"
 import Navigation from "./Navigation"
+import {Routes, Route} from 'react-router-dom'
 
 function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentUserGardens}) {
     
@@ -33,21 +34,20 @@ function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentU
     return(  
         <>
             <Navigation currentUser={currentUser} setCurrentUser={setCurrentUser} setCurrentUserGardens={setCurrentUserGardens} />
-            <div>Garden Landing</div>
-
-        
+            <br/>
             <Container>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="formBasicGardenName">
-                    <Form.Label>Garden Name</Form.Label>
-                    <Form.Control placeholder="Enter Garden Name" />
-                </Form.Group>
-                    <Button variant="primary" type="submit">Submit</Button>
-            </Form>
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group className="mb-3" controlId="formBasicGardenName">
+                        <Form.Label>Garden Name</Form.Label>
+                        <Form.Control placeholder="Enter Garden Name" />
+                    </Form.Group>
+                        <Button variant="primary" type="submit">Submit</Button>
+                </Form>
             </Container>
 
-            <Garden currentUser={currentUser} setCurrentUserGardens={setCurrentUserGardens} currentUserGardens={currentUserGardens}></Garden>
-
+            <Routes> 
+                <Route path="/home" element={<Garden currentUser={currentUser} setCurrentUserGardens={setCurrentUserGardens} currentUserGardens={currentUserGardens} />} />
+            </Routes>
         </>
     )
 }

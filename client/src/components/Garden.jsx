@@ -8,6 +8,7 @@ function Garden({currentUserGardens, currentUser}){
     const [viewPlants, setViewPlants] = useState(false)
     const [gardenData, setGardenData] = useState({})
     const [plantList, setPlantList] = useState([])
+    const [showPlant, setShowPlant] = useState(false)
     // function handleSubmit(event) {
     //     event.preventDefault()
     //     const obj = {
@@ -24,7 +25,12 @@ function Garden({currentUserGardens, currentUser}){
     
     function handleViewPlants(id) {
        
+       if (viewPlants === id) {
+           setViewPlants(false)
+       } else {
         setViewPlants(id)
+       }
+
         
         fetch(`/gardens/${id}`)
         .then(resp => resp.json())
@@ -38,24 +44,28 @@ function Garden({currentUserGardens, currentUser}){
     }
 
     const gardens = currentUserGardens.map(garden => {
-        let show
         
-        if (viewPlants === garden.id) {
-            show = true
-        } else {
-            show = false
-        }
         
-        return <Card onClick={() => handleViewPlants(garden.id)} key={garden.id}>
-                    <Card.Header>{garden.garden_name}</Card.Header>
-                    <Card.Body>
-                        <Card.Title>{garden.garden_name}</Card.Title>
-                        <Card.Text>
-                            {/* <Plant gardenData={gardenData}/> */}
-                            {show ? <Plant gardenData={gardenData} viewPlants={viewPlants} currentUser={currentUser} plantList={plantList} setPlantList={setPlantList}/> : null}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
+        // if (viewPlants === garden.id) {
+        //     setShowPlant(true)
+        // } else {
+        //     setShowPlant(false)
+        // }
+
+        
+        return  <>
+                    <Card border="primary" key={garden.id}>
+                        <Card.Header onClick={() => handleViewPlants(garden.id)}>{garden.garden_name}</Card.Header>
+                        <Card.Body>
+                            <Card.Title>{garden.garden_name}</Card.Title>
+                            <Card.Text>
+                                {/* <Plant gardenData={gardenData}/> */}
+                                {viewPlants === garden.id ? <Plant gardenData={gardenData} viewPlants={viewPlants} currentUser={currentUser} plantList={plantList} setPlantList={setPlantList}/> : null}
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                    <br/>
+                </>
     })
 
     return(
