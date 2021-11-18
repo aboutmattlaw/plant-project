@@ -1,6 +1,69 @@
- import {Card, Row, Col} from 'react-bootstrap'
- 
- function Plant({gardenData, viewPlants, plantNotes}) {
+import {
+    Card,
+    Row,
+    Col,
+    Form,
+    Button
+} from 'react-bootstrap'
+
+
+function Plant({
+    gardenData,
+    viewPlants,
+    plantNotes,
+    setGardenData,
+    currentUser
+}) {
+
+
+    function handlePlantSubmit(event) {
+        event.preventDefault()
+        const obj = {
+            "plant_name": event.target[0].value,
+            "garden_id": gardenData.id
+        }
+
+        fetch('/plants', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(obj)
+        }).then(resp => resp.json()).then(data => console.log(data))
+    }
+
+
+    function handleDateOns(event, gardenData) {
+        event.preventDefault()
+        const obj = {
+            "planted_on": event.target[0].value,
+            "sprouted_on": event.target[1].value,
+            "flowered_on": event.target[2].value
+        }
+
+        // can't figure out how to dynamically generate the id for the fetch below... `/plants/${plant.plant_id}`
+
+        fetch(`/plants/4`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(obj)
+        }).then(resp => resp.json()).then(data => console.log(data))
+    }
+
+
+    function handleDeletePlant(event) {
+
+        fetch(`/plants/4`, {
+            method: 'DELETE',
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).then(resp => resp.json()).then(data => console.log(data))
+    }
+
+
 
     const plants = plantNotes.map(plant => {
         
@@ -28,13 +91,14 @@
                         <Card.Text>
                             {notes}
                         </Card.Text>
+
                     </Card.Body>
                 </Card>
             </Col>
         )
     })
 
-    return(
+    return (
         <>
             <Row xs={1} md={2} className="g-4">
                 {plants}
@@ -43,4 +107,4 @@
      )
  }
 
- export default Plant
+export default Plant
