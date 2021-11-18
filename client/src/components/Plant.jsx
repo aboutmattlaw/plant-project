@@ -3,7 +3,8 @@ import {
     Row,
     Col,
     Form,
-    Button
+    Button,
+    Image
 } from 'react-bootstrap'
 
 
@@ -16,10 +17,11 @@ function Plant({
 
 
     function handlePlantSubmit(event) {
-        event.preventDefault()
+         event.preventDefault()
         const obj = {
             "plant_name": event.target[0].value,
             "garden_id": gardenId
+            "plant_image_url": event.target[1].value
         }
 
         fetch('/plants', {
@@ -123,15 +125,19 @@ function Plant({
                     <br/>
                     Note Description: {note.note_description}
                     <br/>
+                    <Image src={note.image_url} width="150px"></Image>
+                    <br/>
                 </div>
             )
         })
 
-        if (gardenId) {
-        return (
+        // don't know what the image variable would be... {plant.plant_image_url} doesn't seem to be it. 
+      if (gardenId) {        
+      return (
             <Col key={plant.id}>
                 <Card>
-                    <Card.Img variant="top" src="" />
+                    <Card.Img variant="top" src="" /> 
+                   
                     <Card.Body>
                         <Card.Title>{plant.plant_name}</Card.Title>
                     </Card.Body>
@@ -147,6 +153,7 @@ function Plant({
                             sprouted on: {plant.sprouted_on}<br/>
                             flowered on: {plant.flowered_on}<br/>
                         </Card.Text>
+
                             <Form onSubmit={(event) => handleDateOns(plant.id, plant.garden_id, event)}>
                             <Form.Group className="mb-3" controlId="formPlantMilestones">
                                 <Form.Label>Share Milestones</Form.Label>
@@ -205,12 +212,13 @@ function Plant({
             <Row xs={1} md={2} className="g-4">
                 {plants}
             </Row>
+
             {gardenId ? 
                 <Row>
                     <Form onSubmit={handlePlantSubmit}>
                         <Form.Group className="mb-3" controlId="formPlantName">
-                            <Form.Label>Add Plant</Form.Label>
-                            <Form.Control placeholder="Enter Plant Name"/>
+                            <Form.Control placeholder="Add Plant Name"/>
+                            <Form.Control placeholder="Plant Image URL"/>
                         </Form.Group>
                         <Button variant="primary" type="submit">Submit</Button>
                     </Form>
