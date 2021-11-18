@@ -1,4 +1,5 @@
 import {
+    Container,
     Card,
     Row,
     Col,
@@ -6,16 +7,21 @@ import {
     Button,
     Image
 } from 'react-bootstrap'
+import {useState} from 'react'
+import SearchBar from './SearchBar'
 
+function Plant({plantList, currentUser, setPlantList, gardenId}) {
 
-function Plant({
-    plantList,
-    currentUser,
-    setPlantList,
-    gardenId
-}) {
+    const [searchBar, setSearchBar] = useState('')
 
-
+    
+    function onSearch() {
+        const searchedList = plantList.filter(plant => {
+            return plant.plant_name.includes(searchBar)
+        })
+        setPlantList(searchedList)
+    }
+    
     function handlePlantSubmit(event) {
          event.preventDefault()
         const obj = {
@@ -136,7 +142,7 @@ function Plant({
       return (
             <Col key={plant.id}>
                 <Card>
-                    <Card.Img variant="top" src="" /> 
+                    <Card.Img variant="top" src={plant.plant_image_url} /> 
                    
                     <Card.Body>
                         <Card.Title>{plant.plant_name}</Card.Title>
@@ -196,11 +202,12 @@ function Plant({
             return(
                 <Col>
                     <Card>
-                        <Card.Img variant="top" src="https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/A600009156_1?$AFHS-PDP-Zoomed$" />
+                        <Card.Img variant="top" src={plant.plant_image_url} />
                         <Card.Body>
                             <Card.Title>{plant.plant_name}</Card.Title>
                             {comments}
                         </Card.Body>
+                        <Button>Add Comment</Button>
                     </Card>
                 </Col>
             )
@@ -208,7 +215,9 @@ function Plant({
     })
 
     return (
-        <>
+        <>  
+            {!gardenId ? <SearchBar setSearchBar={setSearchBar} searchBar={searchBar} onSearch={onSearch} /> : null}
+
             <Row xs={1} md={2} className="g-4">
                 {plants}
             </Row>
@@ -222,7 +231,8 @@ function Plant({
                         </Form.Group>
                         <Button variant="primary" type="submit">Submit</Button>
                     </Form>
-                </Row> : null}
+                </Row> : null
+                }
         </>
      )
  }
