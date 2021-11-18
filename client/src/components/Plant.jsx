@@ -33,6 +33,31 @@ function Plant({
     }
 
 
+
+
+
+    function handleNoteSubmit(plant_id, event) {
+        event.preventDefault()
+        const obj = {
+            "note_title": event.target[0].value, // fix
+            "note_description": event.target[1].value,
+            "image_url": event.target[2].value,
+            "plant_id": plant_id,
+            "user_id": currentUser.id
+        }
+
+        fetch(`/notes`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(obj)
+        }).then(resp => resp.json()).then(data => console.log(data))
+    }
+
+
+
+
     function handleDateOns(id, event) {
         event.preventDefault()
         const obj = {
@@ -51,6 +76,8 @@ function Plant({
             body: JSON.stringify(obj)
         }).then(resp => resp.json()).then(data => console.log(data))
     }
+
+
 
 
     function handleDeletePlant(id) {
@@ -89,6 +116,12 @@ function Plant({
                     <Card.Body>
                         <Card.Text>
                             {notes}
+                            </Card.Text>
+                            <Card.Text>
+                                planted on: {plant.planted_on}<br/>
+                                sprouted on: {plant.sprouted_on}<br/>
+                                flowered on: {plant.flowered_on}<br/>
+                            </Card.Text>
                             <Form onSubmit={(event) => handleDateOns(plant.id, event)}>
                             <Form.Group className="mb-3" controlId="formPlantMilestones">
                                 <Form.Label>Share Milestones</Form.Label>
@@ -98,9 +131,22 @@ function Plant({
                             </Form.Group>
                             <Button variant="primary" type="submit">Submit</Button>
                         </Form>
+
+
+                        <Form onSubmit={(event) => handleNoteSubmit(plant.id, event)}>
+                            <Form.Group className="mb-3" controlId="formPlantNote">
+                                <Form.Label>Add Note</Form.Label>
+                                <Form.Control placeholder="Title"/>
+                                <Form.Control placeholder="Description"/>
+                                <Form.Control placeholder="Img Url"/>
+                            </Form.Group>
+                            <Button variant="primary" type="submit">Note Submit</Button>
+                            </Form>
+
+                        
                             <Button variant="secondary" type="submit"
                             onClick={() => handleDeletePlant(plant.id)}>Delete</Button>
-                        </Card.Text>
+                       
 
                     </Card.Body>
                 </Card>
@@ -130,3 +176,7 @@ function Plant({
  }
 
 export default Plant
+
+
+
+
