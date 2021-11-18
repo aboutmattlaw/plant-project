@@ -1,9 +1,13 @@
 import {Card, Row, Col,Container} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
+import Plant from './Plant'
+import {useState} from 'react'
 
 
-function Garden({currentUserGardens}){
-
+function Garden({currentUserGardens, currentUser}){
+    const [viewPlants, setViewPlants] = useState(false)
+    const [gardenData, setGardenData] = useState({})
+    const [plantNotes, setPlantNotes] = useState([])
     // function handleSubmit(event) {
     //     event.preventDefault()
     //     const obj = {
@@ -18,13 +22,38 @@ function Garden({currentUserGardens}){
     //     .then(data => console.log('New Garden', data))
     // }
     
+    function handleViewPlants(id) {
+       
+        setViewPlants(id)
+        
+        fetch(`/gardens/${id}`)
+        .then(resp => resp.json())
+        .then(data => { 
+            setGardenData(data)
+            console.log(data)
+        }) 
+
+        fetch(`gardennotes/${id}`)
+        .then(resp => resp.json())
+        .then(data => setPlantNotes(data))
+    }
+
     const gardens = currentUserGardens.map(garden => {
-        return <Card>
+        let show
+        
+        if (viewPlants === garden.id) {
+            show = true
+        } else {
+            show = false
+        }
+        
+        return <Card onClick={() => handleViewPlants(garden.id)} key={garden.id}>
                     <Card.Header>{garden.garden_name}</Card.Header>
                     <Card.Body>
                         <Card.Title>{garden.garden_name}</Card.Title>
                         <Card.Text>
-                            <Link to="/">link</Link>
+                            {/* <Plant gardenData={gardenData}/> */}
+                            {show ? <Plant gardenData={gardenData} viewPlants={viewPlants} plantNotes={plantNotes}/> : null}
                         </Card.Text>
                     </Card.Body>
                 </Card>
