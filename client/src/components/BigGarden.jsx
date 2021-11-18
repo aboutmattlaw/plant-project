@@ -36,6 +36,7 @@ function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentU
 
             <button onClick={handleDelete}>Logout "{currentUser.username}"</button>
         
+            <Container>
             <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="formBasicGardenName">
                     <Form.Label>Garden Name</Form.Label>
@@ -43,6 +44,7 @@ function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentU
                 </Form.Group>
                     <Button variant="primary" type="submit">Submit</Button>
             </Form>
+            </Container>
 
             <Garden currentUser={currentUser} setCurrentUserGardens={setCurrentUserGardens} currentUserGardens={currentUserGardens}></Garden>
 

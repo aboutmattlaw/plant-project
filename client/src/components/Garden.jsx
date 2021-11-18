@@ -7,7 +7,7 @@ import {useState} from 'react'
 function Garden({currentUserGardens, currentUser}){
     const [viewPlants, setViewPlants] = useState(false)
     const [gardenData, setGardenData] = useState({})
-    const [plantNotes, setPlantNotes] = useState([])
+    const [plantList, setPlantList] = useState([])
     // function handleSubmit(event) {
     //     event.preventDefault()
     //     const obj = {
@@ -34,7 +34,7 @@ function Garden({currentUserGardens, currentUser}){
 
         fetch(`gardennotes/${id}`)
         .then(resp => resp.json())
-        .then(data => setPlantNotes(data))
+        .then(data => setPlantList(data))
     }
 
     const gardens = currentUserGardens.map(garden => {
@@ -52,7 +52,7 @@ function Garden({currentUserGardens, currentUser}){
                         <Card.Title>{garden.garden_name}</Card.Title>
                         <Card.Text>
                             {/* <Plant gardenData={gardenData}/> */}
-                            {show ? <Plant gardenData={gardenData} viewPlants={viewPlants} currentUser={currentUser} plantNotes={plantNotes}/> : null}
+                            {show ? <Plant gardenData={gardenData} viewPlants={viewPlants} currentUser={currentUser} plantList={plantList} setPlantList={setPlantList}/> : null}
                         </Card.Text>
                     </Card.Body>
                 </Card>
