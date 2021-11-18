@@ -20,7 +20,7 @@ function Plant({
          event.preventDefault()
         const obj = {
             "plant_name": event.target[0].value,
-            "garden_id": gardenId
+            "garden_id": gardenId,
             "plant_image_url": event.target[1].value
         }
 
