@@ -64,44 +64,33 @@ function Plant({
     }
 
 
-    // const arrayOfGardenPlants = gardenData.filter(plant => plant.garden_id === viewPlants)
-    console.log('gardenData', gardenData)
-    console.log('gardenData.plants', gardenData.plants)
 
-
-    const notes = plantNotes.map(note => {
+    const plants = plantNotes.map(plant => {
+        
+        const notes = plant.notes.map(note => {
+            return( 
+                <>
+                    Note Title: {note.note_title} 
+                    <br/>
+                    Note Description: {note.note_description}
+                    <br/>
+                </>
+            )
+        })
+        
         return (
             <Col>
-                <Card> {/* <Card.Img variant="top" src="holder.js/100px160" /> */}
+                <Card>
+                    <Card.Img variant="top" src="holder.js/100px160" />
                     <Card.Body>
-                        <Card.Title>{
-                            gardenData.plant_name
-                        }</Card.Title>
-                        <Card.Text> {
-                            note.note_description
-                        }
-                            {
-                            gardenData.planted_on
-                        }
-                            {
-                            gardenData.sprouted_on
-                        }
-                            {
-                            gardenData.flowered_on
-                        } </Card.Text>
-
-
-                        <Form onSubmit={handleDateOns}>
-                            <Form.Group className="mb-3" controlId="formPlantMilestones">
-                                <Form.Label>Share Milestones</Form.Label>
-                                <Form.Control placeholder="Planted On"/>
-                                <Form.Control placeholder="Sprouted On"/>
-                                <Form.Control placeholder="Flowered On"/>
-                            </Form.Group>
-                            <Button variant="primary" type="submit">Submit</Button>
-                        </Form>
-                        <Button variant="secondary" type="submit"
-                            onClick={handleDeletePlant}>Delete</Button>
+                        <Card.Title>{plant.plant_name}</Card.Title>
+                    </Card.Body>
+                </Card>
+                <Card>
+                    <Card.Body>
+                        <Card.Text>
+                            {notes}
+                        </Card.Text>
 
                     </Card.Body>
                 </Card>
@@ -111,31 +100,11 @@ function Plant({
 
     return (
         <>
-            <Row xs={1}
-                md={2}
-                className="g-4">
-                {notes} 
-                <Form onSubmit={handlePlantSubmit}>
-                    <Form.Group className="mb-3" controlId="formPlantName">
-                        <Form.Label>Add Plant</Form.Label>
-                        <Form.Control placeholder="Enter Plant Name"/>
-                    </Form.Group>
-                    <Button variant="primary" type="submit">Submit</Button>
-                </Form>
-                </Row>
-
-            {/* <Col>
-                    <Card>
-                        <Card.Img variant="top" src="holder.js/100px160" />
-                        <Card.Body>
-                        <Card.Title>{gardenData.plant_name}</Card.Title>
-                        <Card.Text>
-                            "Txt"
-                        </Card.Text>
-                        </Card.Body>
-                    </Card>
-                </Col> */} </>
-    )
-}
+            <Row xs={1} md={2} className="g-4">
+                {plants}
+            </Row>
+        </>
+     )
+ }
 
 export default Plant
