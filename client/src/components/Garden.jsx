@@ -52,7 +52,7 @@ function Garden({currentUserGardens, currentUser}){
                         <Card.Title>{garden.garden_name}</Card.Title>
                         <Card.Text>
                             {/* <Plant gardenData={gardenData}/> */}
-                            {show ? <Plant gardenData={gardenData} viewPlants={viewPlants} plantNotes={plantNotes}/> : null}
+                            {show ? <Plant gardenData={gardenData} viewPlants={viewPlants} currentUser={currentUser} plantNotes={plantNotes}/> : null}
                         </Card.Text>
                     </Card.Body>
                 </Card>
