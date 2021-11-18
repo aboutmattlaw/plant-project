@@ -13,7 +13,7 @@ class GardensController < ApplicationController
       def show
         garden = Garden.find_by(id: params[:id])
      if garden
-       render json: garden.plants, status: 200
+       render json: garden, include: ['plants', 'plants.notes', 'plants.comments'], status: 200
      else
        render json: { error: 'what?' }, status: 404
      end
