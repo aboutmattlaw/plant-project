@@ -1,15 +1,5 @@
 class NotesController < ApplicationController
 
-  def garden_notes
-    garden = Garden.find_by(id: params[:id])
-    if garden.valid?
-      notes_array = garden.garden_plant_notes
-      render json: notes_array, status: :ok
-    else
-      render json: {error: "garden does not exist"}, status: :not_found
-    end
-  end
-
   # /notes allows for creation of a note
 
     def create
