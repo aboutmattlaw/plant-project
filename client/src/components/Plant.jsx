@@ -10,9 +10,10 @@ import {
 function Plant({
     gardenData,
     viewPlants,
-    plantNotes,
+    plantList,
     setGardenData,
-    currentUser
+    currentUser,
+    setPlantList
 }) {
 
 
@@ -29,14 +30,18 @@ function Plant({
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(obj)
-        }).then(resp => resp.json()).then(data => console.log(data))
+        }).then(resp => resp.json()).then(data => {
+            fetch(`gardennotes/${data.garden_id}`)
+                .then(resp => resp.json())
+                .then(data => setPlantList(data))
+        })
     }
 
 
 
 
 
-    function handleNoteSubmit(plant_id, event) {
+    function handleNoteSubmit(plant_id, gardenId, event) {
         event.preventDefault()
         const obj = {
             "note_title": event.target[0].value, // fix
@@ -52,13 +57,21 @@ function Plant({
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(obj)
-        }).then(resp => resp.json()).then(data => console.log(data))
+        }).then((resp => {
+            if(resp.ok) {
+                fetch(`gardennotes/${gardenId}`)
+                .then(resp => resp.json())
+                .then(data => setPlantList(data))
+            } else {
+                console.log("error!")
+            }
+        }))
     }
 
 
 
 
-    function handleDateOns(id, event) {
+    function handleDateOns(id, gardenId, event) {
         event.preventDefault()
         const obj = {
             "planted_on": event.target[0].value,
@@ -74,25 +87,37 @@ function Plant({
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(obj)
-        }).then(resp => resp.json()).then(data => console.log(data))
+        }).then(resp => {
+            if(resp.ok) {
+                fetch(`gardennotes/${gardenId}`)
+                .then(resp => resp.json())
+                .then(data => setPlantList(data))
+            } else {
+                console.log("error!")
+            }
+        })
     }
 
 
 
 
-    function handleDeletePlant(id) {
+    function handleDeletePlant(id, gardenId) {
 
         fetch(`/plants/${id}`, {
             method: 'DELETE',
             headers: {
                 "Content-Type": "application/json"
             }
-        }).then(resp => resp.json()).then(data => console.log(data))
+        }).then(resp => {
+                fetch(`gardennotes/${gardenId}`)
+                .then(resp => resp.json())
+                .then(data => setPlantList(data))
+        })
     }
 
 
 
-    const plants = plantNotes.map(plant => {
+    const plants = plantList.map(plant => {
         const notes = plant.notes.map(note => {
             return( 
                 <>
@@ -107,7 +132,7 @@ function Plant({
         return (
             <Col>
                 <Card>
-                    <Card.Img variant="top" src="https://static.thenounproject.com/png/148834-200.png" />
+                    <Card.Img variant="top" src="" />
                     <Card.Body>
                         <Card.Title>{plant.plant_name}</Card.Title>
                     </Card.Body>
@@ -122,7 +147,7 @@ function Plant({
                                 sprouted on: {plant.sprouted_on}<br/>
                                 flowered on: {plant.flowered_on}<br/>
                             </Card.Text>
-                            <Form onSubmit={(event) => handleDateOns(plant.id, event)}>
+                            <Form onSubmit={(event) => handleDateOns(plant.id, plant.garden_id, event)}>
                             <Form.Group className="mb-3" controlId="formPlantMilestones">
                                 <Form.Label>Share Milestones</Form.Label>
                                 <Form.Control placeholder="Planted On"/>
@@ -133,7 +158,7 @@ function Plant({
                         </Form>
 
 
-                        <Form onSubmit={(event) => handleNoteSubmit(plant.id, event)}>
+                        <Form onSubmit={(event) => handleNoteSubmit(plant.id, plant.garden_id, event)}>
                             <Form.Group className="mb-3" controlId="formPlantNote">
                                 <Form.Label>Add Note</Form.Label>
                                 <Form.Control placeholder="Title"/>
@@ -145,7 +170,7 @@ function Plant({
 
                         
                             <Button variant="secondary" type="submit"
-                            onClick={() => handleDeletePlant(plant.id)}>Delete</Button>
+                            onClick={() => handleDeletePlant(plant.id, plant.garden_id)}>Delete</Button>
                        
 
                     </Card.Body>
