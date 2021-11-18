@@ -20,10 +20,14 @@
                 <Card>
                     <Card.Img variant="top" src="holder.js/100px160" />
                     <Card.Body>
-                    <Card.Title>{plant.plant_name}</Card.Title>
-                    <Card.Text>
-                        {notes}
-                    </Card.Text>
+                        <Card.Title>{plant.plant_name}</Card.Title>
+                    </Card.Body>
+                </Card>
+                <Card>
+                    <Card.Body>
+                        <Card.Text>
+                            {notes}
+                        </Card.Text>
                     </Card.Body>
                 </Card>
             </Col>
