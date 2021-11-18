@@ -1,6 +1,13 @@
 class PlantsController < ApplicationController
 
-
+  def garden_plants
+    garden = Garden.find_by(id: params[:id])
+    if garden.valid?
+      render json: garden.plants, status: :ok
+    else
+      render json: {error: "garden does not exist"}, status: :not_found
+    end
+  end
 
   # /plants shows all plants with notes and comments
 
