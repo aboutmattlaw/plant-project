@@ -33,7 +33,7 @@ function Garden({currentUserGardens, currentUser}){
             console.log(data)
         }) 
 
-        fetch(`/gardennotes/${id}`)
+        fetch(`gardennotes/${id}`)
         .then(resp => resp.json())
         .then(data => setPlantNotes(data))
     }
