@@ -8,12 +8,10 @@ import {
 
 
 function Plant({
-    gardenData,
-    viewPlants,
     plantList,
-    setGardenData,
     currentUser,
-    setPlantList
+    setPlantList,
+    gardenId
 }) {
 
 
@@ -21,7 +19,7 @@ function Plant({
         event.preventDefault()
         const obj = {
             "plant_name": event.target[0].value,
-            "garden_id": gardenData.id
+            "garden_id": gardenId
         }
 
         fetch('/plants', {
@@ -120,33 +118,35 @@ function Plant({
     const plants = plantList.map(plant => {
         const notes = plant.notes.map(note => {
             return( 
-                <>
+                <div key={note.id}>
                     Note Title: {note.note_title} 
                     <br/>
                     Note Description: {note.note_description}
                     <br/>
-                </>
+                </div>
             )
         })
 
+        if (gardenId) {
         return (
-            <Col>
+            <Col key={plant.id}>
                 <Card>
                     <Card.Img variant="top" src="" />
                     <Card.Body>
                         <Card.Title>{plant.plant_name}</Card.Title>
                     </Card.Body>
                 </Card>
+
                 <Card>
                     <Card.Body>
                         <Card.Text>
                             {notes}
-                            </Card.Text>
-                            <Card.Text>
-                                planted on: {plant.planted_on}<br/>
-                                sprouted on: {plant.sprouted_on}<br/>
-                                flowered on: {plant.flowered_on}<br/>
-                            </Card.Text>
+                        </Card.Text>
+                        <Card.Text>
+                            planted on: {plant.planted_on}<br/>
+                            sprouted on: {plant.sprouted_on}<br/>
+                            flowered on: {plant.flowered_on}<br/>
+                        </Card.Text>
                             <Form onSubmit={(event) => handleDateOns(plant.id, plant.garden_id, event)}>
                             <Form.Group className="mb-3" controlId="formPlantMilestones">
                                 <Form.Label>Share Milestones</Form.Label>
@@ -166,17 +166,38 @@ function Plant({
                                 <Form.Control placeholder="Img Url"/>
                             </Form.Group>
                             <Button variant="primary" type="submit">Note Submit</Button>
-                            </Form>
+                        </Form>
 
-                        
                             <Button variant="secondary" type="submit"
                             onClick={() => handleDeletePlant(plant.id, plant.garden_id)}>Delete</Button>
-                       
 
                     </Card.Body>
                 </Card>
             </Col>
-        )
+        )} else {
+            const comments = plant.comments.map(comment => {
+                    return(
+                        <Card.Text key={comment.id}>
+                            User: {comment.user_id}
+                            <br/>
+                            Comment Title: {comment.comment_title} 
+                            <br/>
+                            Comment Description: {comment.comment_description}
+                        </Card.Text>
+                    )
+            })
+            return(
+                <Col>
+                    <Card>
+                        <Card.Img variant="top" src="https://ashleyfurniture.scene7.com/is/image/AshleyFurniture/A600009156_1?$AFHS-PDP-Zoomed$" />
+                        <Card.Body>
+                            <Card.Title>{plant.plant_name}</Card.Title>
+                            {comments}
+                        </Card.Body>
+                    </Card>
+                </Col>
+            )
+        }
     })
 
     return (
@@ -184,18 +205,16 @@ function Plant({
             <Row xs={1} md={2} className="g-4">
                 {plants}
             </Row>
-            <Row>
-            <Form onSubmit={handlePlantSubmit}>
-                    <Form.Group className="mb-3" controlId="formPlantName">
-                        <Form.Label>Add Plant</Form.Label>
-                        <Form.Control placeholder="Enter Plant Name"/>
-                    </Form.Group>
-                    <Button variant="primary" type="submit">Submit</Button>
-                    
-                </Form>
-            </Row>
-
-        
+            {gardenId ? 
+                <Row>
+                    <Form onSubmit={handlePlantSubmit}>
+                        <Form.Group className="mb-3" controlId="formPlantName">
+                            <Form.Label>Add Plant</Form.Label>
+                            <Form.Control placeholder="Enter Plant Name"/>
+                        </Form.Group>
+                        <Button variant="primary" type="submit">Submit</Button>
+                    </Form>
+                </Row> : null}
         </>
      )
  }

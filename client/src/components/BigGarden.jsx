@@ -3,16 +3,24 @@ import CreateGarden from "./CreateGarden"
 import Garden from "./Garden"
 import Navigation from "./Navigation"
 import {Routes, Route} from 'react-router-dom'
+import Plant from "./Plant"
+import {useEffect, useState} from 'react'
 
 function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentUserGardens}) {
+    const [plantList, setPlantList] = useState([])
+    const [communityPlants, setCommunityPlants] = useState([])
+
+    useEffect(() => {
+        fetch('/plants')
+        .then(resp => resp.json())
+        .then(data => setCommunityPlants(data))
+    }, [])
     
-    // function handleDelete(e) {
-    //     fetch('/logout', {method: 'DELETE'})
-    //     .then(resp => {
-    //         setCurrentUserGardens([])
-    //         setCurrentUser(null)
-    //     })
-    // }
+    function getPlantList(id) {
+        fetch(`gardennotes/${id}`)
+        .then(resp => resp.json())
+        .then(data => setPlantList(data))
+    }
 
     function handleSubmit(event) {
         event.preventDefault()
@@ -46,7 +54,8 @@ function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentU
             </Container>
 
             <Routes> 
-                <Route path="/home" element={<Garden currentUser={currentUser} setCurrentUserGardens={setCurrentUserGardens} currentUserGardens={currentUserGardens} />} />
+                <Route path="/home" element={<Garden setPlantList={setPlantList} plantList={plantList} getPlantList={getPlantList} currentUser={currentUser} setCurrentUserGardens={setCurrentUserGardens} currentUserGardens={currentUserGardens} />} />
+                <Route path="/communityplants" element={<Plant plantList={communityPlants} setPlantList={setPlantList} currentUser={currentUser} />} />
             </Routes>
         </>
     )
