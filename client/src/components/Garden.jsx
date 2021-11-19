@@ -26,7 +26,7 @@ function Garden({currentUserGardens, currentUser, getPlantList, plantList, setPl
                     <Card border="primary" key={garden.id}>
                         <Card.Header onClick={() => handleViewPlants(garden.id)}>{garden.garden_name}</Card.Header>
                         <Card.Body>
-                            <Card.Title>{garden.garden_name}</Card.Title>
+                            <Card.Title></Card.Title>
                             <Card.Text>
                                 {viewPlants === garden.id ? <Plant gardenId={garden.id} currentUser={currentUser} plantList={plantList} setPlantList={setPlantList}/> : null}
                             </Card.Text>
@@ -37,7 +37,7 @@ function Garden({currentUserGardens, currentUser, getPlantList, plantList, setPl
     })
 
     return(
-        <Container className="w-75 p-3 mt-5">
+        <Container className="w-100 p-3 mt-5">
             {gardens}
         </Container>
     )
