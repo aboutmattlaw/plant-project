@@ -7,6 +7,8 @@ import {
     Image
 } from 'react-bootstrap'
 
+import {useState} from 'react'
+
 
 function Plant({
     plantList,
@@ -15,9 +17,49 @@ function Plant({
     gardenId
 }) {
 
+// State For Forms
+
+    const [plantFormData, setPlantFormData] = useState({
+        plant_name: '',
+        plant_image_url:''
+    })
+
+    const [noteFormData, setNoteFormData] = useState({
+        note_title: '',
+        note_description:'',
+        note_image_url:'',
+    })
+
+    const [dateOnsFormData, setDateOnsFormData] = useState({
+        planted_on: '',
+        sprouted_on:'',
+        flowered_on:''
+    })
+
+ 
+
+ // Form Changers   
+
+    function handlePlantChange(event) {
+        setPlantFormData({...plantFormData, [event.target.name]:event.target.value}) 
+    }
+
+    function handleNoteChange(event) {
+        setNoteFormData({...noteFormData, [event.target.name]:event.target.value}) 
+    }
+
+    function handleDateOnsChange(event) {
+    setDateOnsFormData({...dateOnsFormData, [event.target.name]:event.target.value}) 
+    }
+
+// Plant Submit Function
 
     function handlePlantSubmit(event) {
          event.preventDefault()
+         setPlantFormData({
+            plant_name: '',
+            plant_image_url:''
+         })
         const obj = {
             "plant_name": event.target[0].value,
             "garden_id": gardenId,
@@ -39,10 +81,15 @@ function Plant({
 
 
 
-
+// Note Submit Function
 
     function handleNoteSubmit(plant_id, gardenId, event) {
         event.preventDefault()
+        setNoteFormData({
+            note_title: '',
+            note_description:'',
+            note_image_url:''
+         })
         const obj = {
             "note_title": event.target[0].value, // fix
             "note_description": event.target[1].value,
@@ -69,17 +116,21 @@ function Plant({
     }
 
 
-
+// Date Ons Function 
 
     function handleDateOns(id, gardenId, event) {
         event.preventDefault()
+        setDateOnsFormData({
+            planted_on: '',
+            sprouted_on:'',
+            flowered_on:''
+         })
         const obj = {
             "planted_on": event.target[0].value,
             "sprouted_on": event.target[1].value,
             "flowered_on": event.target[2].value
         }
 
-        // can't figure out how to dynamically generate the id for the fetch below... `/plants/${plant.plant_id}`
 
         fetch(`/plants/${id}`, {
             method: 'PATCH',
@@ -99,7 +150,7 @@ function Plant({
     }
 
 
-
+// Delete Plant
 
     function handleDeletePlant(id, gardenId) {
 
@@ -131,7 +182,6 @@ function Plant({
             )
         })
 
-        // don't know what the image variable would be... {plant.plant_image_url} doesn't seem to be it. 
       if (gardenId) {        
       return (
             <Col key={plant.id}>
@@ -157,20 +207,19 @@ function Plant({
                             <Form onSubmit={(event) => handleDateOns(plant.id, plant.garden_id, event)}>
                             <Form.Group className="mb-3" controlId="formPlantMilestones">
                                 <Form.Label>Share Milestones</Form.Label>
-                                <Form.Control placeholder="Planted On"/>
-                                <Form.Control placeholder="Sprouted On"/>
-                                <Form.Control placeholder="Flowered On"/>
+                                <Form.Control onChange={handleDateOnsChange} name="planted_on" value={dateOnsFormData.planted_on} placeholder="Planted On"/>
+                                <Form.Control onChange={handleDateOnsChange} name="sprouted_on" value={dateOnsFormData.sprouted_on} placeholder="Sprouted On"/>
+                                <Form.Control onChange={handleDateOnsChange} name="flowered_on" value={dateOnsFormData.flowered_on} placeholder="Flowered On"/>
                             </Form.Group>
                             <Button variant="primary" type="submit">Submit</Button>
                         </Form>
 
-
                         <Form onSubmit={(event) => handleNoteSubmit(plant.id, plant.garden_id, event)}>
                             <Form.Group className="mb-3" controlId="formPlantNote">
                                 <Form.Label>Add Note</Form.Label>
-                                <Form.Control placeholder="Title"/>
-                                <Form.Control placeholder="Description"/>
-                                <Form.Control placeholder="Img Url"/>
+                                <Form.Control onChange={handleNoteChange} name="note_title" value={noteFormData.note_title} placeholder="Title"/>
+                                <Form.Control onChange={handleNoteChange} name="note_description" value={noteFormData.note_description}placeholder="Description"/>
+                                <Form.Control onChange={handleNoteChange} name="note_image_url" value={noteFormData.note_image_url}placeholder="Img Url"/>
                             </Form.Group>
                             <Button variant="primary" type="submit">Note Submit</Button>
                         </Form>
@@ -217,8 +266,8 @@ function Plant({
                 <Row>
                     <Form onSubmit={handlePlantSubmit}>
                         <Form.Group className="mb-3" controlId="formPlantName">
-                            <Form.Control placeholder="Add Plant Name"/>
-                            <Form.Control placeholder="Plant Image URL"/>
+                            <Form.Control onChange={handlePlantChange} name="plant_name" value={plantFormData.plant_name} placeholder="Add Plant Name"/>
+                            <Form.Control onChange={handlePlantChange} name="plant_image_url" value={plantFormData.plant_image_url} placeholder="Plant Image URL"/>
                         </Form.Group>
                         <Button variant="primary" type="submit">Submit</Button>
                     </Form>
