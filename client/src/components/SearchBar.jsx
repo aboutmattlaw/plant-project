@@ -19,12 +19,12 @@ function SearchBar({setSearchBar, searchBar, onSearch}) {
 
     return (
         <Container>
+                <br/>
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicGardenName">
                         <Form.Label>Plant Search</Form.Label>
                         <Form.Control value={searchBar} onChange={handleSearch} placeholder="Enter Plant Name" />
                     </Form.Group>
-                        <Button variant="primary" type="submit">Submit</Button>
                 </Form>
         </Container> 
     )

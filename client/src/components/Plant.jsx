@@ -16,10 +16,9 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
 
     
     function onSearch() {
-        const searchedList = plantList.filter(plant => {
+        setPlantList(plantList.filter(plant => {
             return plant.plant_name.includes(searchBar)
-        })
-        setPlantList(searchedList)
+        }))
     }
     
     function handlePlantSubmit(event) {
