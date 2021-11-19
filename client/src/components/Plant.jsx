@@ -1,4 +1,5 @@
 import {
+    Container,
     Card,
     Row,
     Col,
@@ -6,9 +7,8 @@ import {
     Button,
     Image
 } from 'react-bootstrap'
-
 import {useState} from 'react'
-
+import SearchBar from './SearchBar'
 
 function Plant({
     plantList,
@@ -16,7 +16,8 @@ function Plant({
     setPlantList,
     gardenId
 }) {
-
+  
+    const [searchBar, setSearchBar] = useState('')
 // State For Forms
 
     const [plantFormData, setPlantFormData] = useState({
@@ -54,6 +55,13 @@ function Plant({
 
 // Plant Submit Function
 
+    
+    function onSearch() {
+        setPlantList(plantList.filter(plant => {
+            return plant.plant_name.includes(searchBar)
+        }))
+    }
+    
     function handlePlantSubmit(event) {
          event.preventDefault()
          setPlantFormData({
@@ -186,8 +194,7 @@ function Plant({
       return (
             <Col key={plant.id}>
                 <Card>
-                    <Image src={plant.plant_image_url}></Image>
-                   
+                    <Image src={plant.plant_image_url}></Image>             
                     <Card.Body>
                         <Card.Title>{plant.plant_name}</Card.Title>
                     </Card.Body>
@@ -246,10 +253,12 @@ function Plant({
                 <Col>
                     <Card>
                     <Image src={plant.plant_image_url}></Image>
+
                         <Card.Body>
                             <Card.Title>{plant.plant_name}</Card.Title>
                             {comments}
                         </Card.Body>
+                        <Button>Add Comment</Button>
                     </Card>
                 </Col>
             )
@@ -257,7 +266,9 @@ function Plant({
     })
 
     return (
-        <>
+        <>  
+            {!gardenId ? <SearchBar setSearchBar={setSearchBar} searchBar={searchBar} onSearch={onSearch} /> : null}
+
             <Row xs={1} md={2} className="g-4">
                 {plants}
             </Row>
@@ -271,7 +282,8 @@ function Plant({
                         </Form.Group>
                         <Button variant="primary" type="submit">Submit</Button>
                     </Form>
-                </Row> : null}
+                </Row> : null
+                }
         </>
      )
  }
