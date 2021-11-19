@@ -156,18 +156,18 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
                 <div key={
                     note.id
                 }>
-                    Note Title: {
+                    {
                     note.note_title
                 }
                     <br/>
-                    Note Description: {
+                    {
                     note.note_description
                 }
                     <br/>
                     <Image src={
                             note.image_url
                         }
-                        width="150px"></Image>
+                        width="225px"></Image>
                     <br/>
                 </div>
             )
