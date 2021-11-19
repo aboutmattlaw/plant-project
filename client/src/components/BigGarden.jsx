@@ -9,6 +9,8 @@ import {useEffect, useState} from 'react'
 function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentUserGardens}) {
     const [plantList, setPlantList] = useState([])
     const [communityPlants, setCommunityPlants] = useState([])
+    const [gardenFormData, setGardenFormData] = useState({garden_name: ''})
+
 
     useEffect(() => {
         fetch('/plants')
@@ -24,6 +26,7 @@ function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentU
 
     function handleSubmit(event) {
         event.preventDefault()
+        setGardenFormData({garden_name: ''})
         const obj = {
             "garden_name": event.target[0].value,
             "user_id": currentUser.id 
@@ -38,7 +41,14 @@ function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentU
         })
     }
     
-    
+    function handleGardenChange(event) {
+        setGardenFormData({
+            ...gardenFormData,
+            [event.target.name]: event.target.value
+        })
+    }
+
+   
     return(  
         <>
             <Navigation currentUser={currentUser} setCurrentUser={setCurrentUser} setCurrentUserGardens={setCurrentUserGardens} />
@@ -47,7 +57,7 @@ function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentU
                 <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3" controlId="formBasicGardenName">
                         <Form.Label>Garden Name</Form.Label>
-                        <Form.Control placeholder="Enter Garden Name" />
+                        <Form.Control onChange={handleGardenChange} name="garden_name" value={gardenFormData.garden_name} placeholder="Enter Garden Name" />
                     </Form.Group>
                         <Button variant="primary" type="submit">Submit</Button>
                 </Form>
