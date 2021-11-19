@@ -22,6 +22,7 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
 
     const [dateOnsFormData, setDateOnsFormData] = useState({planted_on: '', sprouted_on: '', flowered_on: ''})
 
+    const [commentFormData, setCommentFormData] = useState({comment_name: '', comment_description: ''})
 
     // Form Changers
 
@@ -45,6 +46,14 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
             [event.target.name]: event.target.value
         })
     }
+    function handleCommentChange(event) {
+        setCommentFormData({
+            ...commentFormData,
+            [event.target.name]: event.target.value
+        })
+    }
+
+
 
     // Plant Submit Function
 
@@ -105,6 +114,35 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
             }
         }))
     }
+
+    // Comment Submit Functio 
+
+
+    function handleCommentSubmit(plant_id, gardenId, event) {
+        event.preventDefault()
+        setCommentFormData({comment_title: '', comment_description: ''})
+        const obj = {
+            "comment_title": event.target[0].value, 
+            "comment_description": event.target[1].value,
+            "plant_id": plant_id,
+            "user_id": currentUser.id
+        }
+
+        fetch(`/comments`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(obj)
+        }).then((resp => {
+            if (resp.ok) {
+                fetch(`/plants`).then(resp => resp.json()).then(data => setPlantList(data))
+            } else {
+                console.log("error!")
+            }
+        }))
+    }
+
 
 
     // Date Ons Function
@@ -289,9 +327,7 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
                     <Card.Text key={
                         comment.id
                     }>
-                        User: {
-                        comment.user_id
-                    }
+                        
                         <br/>
                         Comment Title: {
                         comment.comment_title
@@ -313,8 +349,35 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
                             <Card.Title>{
                                 plant.plant_name
                             }</Card.Title>
-                            {comments} </Card.Body>
-                        <Button>Add Comment</Button>
+                            {comments} 
+
+                            <Form onSubmit={
+                                            (event) => handleCommentSubmit(plant.id, plant.garden_id, event)
+                                        }>
+                                            <Form.Group className="mb-3" controlId="formPlantNote">
+                                                <Form.Label>Add Comment</Form.Label>
+                                                <Form.Control onChange={handleCommentChange}
+                                                    name="comment_title"
+                                                    value={
+                                                        commentFormData.comment_title
+                                                    }
+                                                    placeholder="Title"/>
+                                                <Form.Control placeholder="Description" onChange={handleCommentChange}
+                                                    name="comment_description"
+                                                    value={
+                                                        commentFormData.comment_description
+                                                    }/>
+                                               
+                                            </Form.Group>
+                                            <Button variant="primary" type="submit">Add Comment</Button>
+                                        </Form>
+
+
+
+                        </Card.Body>
+
+
+
                     </Card>
                 </Col>
             )
@@ -334,7 +397,7 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
                 {plants} </Row>
 
             {
-            gardenId ? <Row>
+            gardenId ? <Container><Row>
                 <Form onSubmit={handlePlantSubmit}>
                     <Form.Group className="mb-3" controlId="formPlantName">
                         <Form.Control onChange={handlePlantChange}
@@ -352,7 +415,7 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
                     </Form.Group>
                     <Button variant="primary" type="submit">Submit</Button>
                 </Form>
-            </Row> : null
+            </Row></Container> : null
         } </>
     )
 }

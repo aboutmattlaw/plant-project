@@ -62,11 +62,12 @@ function BigGarden({setCurrentUser, currentUser, setCurrentUserGardens, currentU
                         <Button variant="primary" type="submit">Submit</Button>
                 </Form>
             </Container>
-
+<Container>
             <Routes> 
-                <Route path="/home" element={<Garden setPlantList={setPlantList} plantList={plantList} getPlantList={getPlantList} currentUser={currentUser} setCurrentUserGardens={setCurrentUserGardens} currentUserGardens={currentUserGardens} />} />
+                <Route path="/" element={<Garden setPlantList={setPlantList} plantList={plantList} getPlantList={getPlantList} currentUser={currentUser} setCurrentUserGardens={setCurrentUserGardens} currentUserGardens={currentUserGardens} />} />
                 <Route path="/communityplants" element={<Plant plantList={communityPlants} setPlantList={setCommunityPlants} currentUser={currentUser} />} />
             </Routes>
+            </Container>
         </>
     )
 }

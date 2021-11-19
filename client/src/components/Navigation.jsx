@@ -16,7 +16,7 @@ function Navigation({currentUser, setCurrentUserGardens, setCurrentUser}) {
             <Navbar.Brand href="/home">{currentUser.username}'s Gardens</Navbar.Brand>
                 <Nav className="me-auto">
                     <Nav.Link onClick={handleDelete} href="/">User Logout</Nav.Link>
-                    <Nav.Link href="/home">Gardens</Nav.Link>
+                    <Nav.Link href="/">Gardens</Nav.Link>
                     <Nav.Link href="/communityplants">Community Plants</Nav.Link>
                 </Nav>
             </Container>
