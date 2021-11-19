@@ -14,10 +14,11 @@ function Plant({
     plantList,
     currentUser,
     setPlantList,
-    gardenId
+    gardenId,
+    searchBar,
+    setSearchBar,
+    onSearch
 }) {
-  
-    const [searchBar, setSearchBar] = useState('')
 // State For Forms
 
     const [plantFormData, setPlantFormData] = useState({
@@ -56,11 +57,11 @@ function Plant({
 // Plant Submit Function
 
     
-    function onSearch() {
-        setPlantList(plantList.filter(plant => {
-            return plant.plant_name.includes(searchBar)
-        }))
-    }
+    // function onSearch() {
+    //     const communityPlantList = plantList.filter(plant => {
+    //         return plant.plant_name.includes(searchBar)
+    //     })
+    // }
     
     function handlePlantSubmit(event) {
          event.preventDefault()

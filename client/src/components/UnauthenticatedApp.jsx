@@ -7,7 +7,7 @@ function UnauthenticatedApp({setCurrentUser}) {
         <Routes>
             Unauthenticated App
             <Route path="/signup" element={<Signup setCurrentUser={setCurrentUser} />} />
-            <Route path="/" element={<Signin setCurrentUser={setCurrentUser} />} />
+            <Route path="/signin" element={<Signin setCurrentUser={setCurrentUser} />} />
         </Routes>
     )
 }
