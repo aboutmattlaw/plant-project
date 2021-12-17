@@ -156,7 +156,6 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
             "flowered_on": event.target[2].value
         }
 
-
         fetch(`/plants/${id}`, {
             method: 'PATCH',
             headers: {
@@ -165,6 +164,7 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
             body: JSON.stringify(obj)
         }).then(resp => {
             if (resp.ok) {
+                resp.json().then(data => console.log(data))
                 fetch(`gardennotes/${gardenId}`).then(resp => resp.json()).then(data => setPlantList(data))
             } else {
                 console.log("error!")
@@ -235,9 +235,8 @@ function Plant({plantList, currentUser, setPlantList, gardenId}) {
                                 <Accordion.Header>Milestones</Accordion.Header>
                                 <Accordion.Body>
                                     <Card.Text>
-                                        planted on: {
-                                        plant.planted_on
-                                    }<br/>
+                                        planted on: {plant.planted_on}
+                                    <br/>
                                         sprouted on: {
                                         plant.sprouted_on
                                     }<br/>
